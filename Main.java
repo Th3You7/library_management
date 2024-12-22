@@ -8,7 +8,7 @@ class Main implements UserInput {
 
         loop: while (true) {
             System.out.println(Colors.ANSI_BLUE + "************************************* Choose an operation *************************************" + Colors.ANSI_RESET);
-            System.out.println(Colors.ANSI_BLUE + "1- ADD / 2- LIST / 3- EDIT / 4- REMOVE / 5- SEARCH (EXIT: 8)" + Colors.ANSI_RESET);
+            System.out.println(Colors.ANSI_BLUE + "1- ADD / 2- LIST / 3- EDIT / 4- REMOVE / 5- SEARCH / 6- BORROW / 7- RETURN (EXIT: 0)" + Colors.ANSI_RESET);
             
             // cant call a non static method inside main; had to initiate a child;
             int choice = new Main().handleUserInputMismatch(); 
@@ -43,7 +43,7 @@ class Main implements UserInput {
                     library.back();
                     break;
                 
-                case 8: 
+                case 0: 
                     break loop;
                 default:
                     System.out.println(Colors.ANSI_RED + "Invalid Option" + Colors.ANSI_RESET);

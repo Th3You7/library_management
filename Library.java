@@ -10,7 +10,6 @@ public class Library implements BookService, UserInput {
         return library;
     }
 
-
     //handle add book
     @Override
     public void add() {
@@ -165,12 +164,76 @@ public class Library implements BookService, UserInput {
 
     @Override
     public void back() {
-        throw new UnsupportedOperationException("Not supported yet.");
+         // no book 
+        if(library.isEmpty()) {
+            System.out.println(Colors.ANSI_PURPLE + "No book stored" + Colors.ANSI_RESET);
+            System.out.println();
+            return;
+        }
+
+        // store availble books
+        ArrayList<Book> unavailaBooks;
+
+        unavailaBooks = new ArrayList<>(library.stream().filter(book -> !book.getAvailable()).toList());
+
+        // no unavailable books 
+        if(unavailaBooks.isEmpty()) {
+            System.out.println(Colors.ANSI_PURPLE + "No book is borrowed" + Colors.ANSI_RESET);
+            System.out.println();
+            return;
+        }
+
+        unavailaBooks.forEach(book -> System.out.println(book));
+        System.out.println();
+
+        // select a book to return
+        System.out.println("select a book from the above list");
+        int input = handleUserListItemSelection(unavailaBooks.size());
+
+        Book selectedBook = unavailaBooks.get(input - 1);
+
+        selectedBook.setAvailable(true);
+
+        System.out.println(Colors.ANSI_GREEN + "You returned " + selectedBook.getName() + " ! Hope you enjoyed Reading it!!" + Colors.ANSI_RESET);
+        System.out.println();
     }
 
     @Override
     public void borrow() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        // no book 
+        if(library.isEmpty()) {
+            System.out.println(Colors.ANSI_PURPLE + "No book stored" + Colors.ANSI_RESET);
+            System.out.println();
+            return;
+        }
+
+        // store availble books
+        ArrayList<Book> availaBooks;
+
+        availaBooks = new ArrayList<>(library.stream().filter(book -> book.getAvailable()).toList());
+
+        // no available books 
+        if(availaBooks.isEmpty()) {
+            System.out.println(Colors.ANSI_PURPLE + "No book available" + Colors.ANSI_RESET);
+            System.out.println();
+            return;
+        }
+
+        // list available books
+        availaBooks.forEach(book -> System.out.println(book));
+        System.out.println();
+
+        // select a book to borrow
+        System.out.println("select a book from the above list");
+        int input = handleUserListItemSelection(availaBooks.size());
+
+        Book selectedBook = availaBooks.get(input - 1);
+
+        selectedBook.setAvailable(false);
+
+        System.out.println(Colors.ANSI_GREEN + "You took " + selectedBook.getName() + " ! Happy Reading!!" + Colors.ANSI_RESET);
+        System.out.println();
+
     }
 
     
