@@ -1,53 +1,52 @@
-import java.util.Scanner;
 
-class Main {
-    private static final String ANSI_RESET = "\u001B[0m";
-    private static final String ANSI_RED = "\u001B[31m";
-    private static final String ANSI_GREEN = "\u001B[32m";
-    private static final String ANSI_BLUE = "\u001B[34m";
-    private static final String ANSI_PURPLE = "\u001B[35m";
+class Main implements UserInput {
+    
     public static void main(String[] args) {
-        int choice;
-        Scanner scan = new Scanner(System.in);
-        Library library = new Library();
-        BookOperation addition = new Addition();
-        BookOperation list = new List();
-        BookOperation edit = new Edit();
-        BookOperation remove = new Remove();
-        BookOperation search = new Search();
+        
+        BookService library = new Library();
+       
 
         loop: while (true) {
-            System.out.println(ANSI_BLUE + "************************************* Choose an operation *************************************" + ANSI_RESET);
-            System.out.println(ANSI_BLUE + "1- ADD / 2- LIST / 3- EDIT / 4- REMOVE / 5- SEARCH (EXIT: 0)" + ANSI_RESET);
-
-            choice = scan.nextInt();
-            scan.nextLine();
+            System.out.println(Colors.ANSI_BLUE + "************************************* Choose an operation *************************************" + Colors.ANSI_RESET);
+            System.out.println(Colors.ANSI_BLUE + "1- ADD / 2- LIST / 3- EDIT / 4- REMOVE / 5- SEARCH (EXIT: 8)" + Colors.ANSI_RESET);
+            
+            // cant call a non static method inside main; had to initiate a child;
+            int choice = new Main().handleUserInputMismatch(); 
+            System.out.println();
 
             switch(choice) {
                 case 1:
-                    library.perform(library.library, addition);
+                    library.add();
                     break;
 
                 case 2:
-                    library.perform(library.library, list);
+                    library.list();
                     break;
 
                 case 3:
-                    library.perform(library.library, edit);
+                    library.edit();
                     break;
 
                 case 4: 
-                    library.perform(library.library, remove);
+                    library.remove();
                     break;
 
                 case 5:
-                    library.perform(library.library, search);
+                    library.search();
+                    break;
+
+                case 6: 
+                    library.borrow();
+                    break;
+
+                case 7: 
+                    library.back();
                     break;
                 
                 case 8: 
                     break loop;
                 default:
-                    throw new AssertionError("Invalid Option");
+                    System.out.println(Colors.ANSI_RED + "Invalid Option" + Colors.ANSI_RESET);
             }
            
         }

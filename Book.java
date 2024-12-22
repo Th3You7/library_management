@@ -1,14 +1,14 @@
 
 public class Book {
 
-    String name;
-    String author;
-    Boolean available;
+    private String name;
+    private String author;
+    private Boolean available;
 
-    public Book(String name, String author, Boolean available) {
+    public Book(String name, String author) {
         this.name = name;
         this.author = author;
-        this.available = available;
+        this.available = true;
     }
 
     public String getName() {
