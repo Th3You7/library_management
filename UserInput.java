@@ -5,7 +5,7 @@ import java.util.Scanner;
 interface UserInput {
     Scanner scan = new Scanner(System.in);
     // handle mismatch exception
-    default int handleUserInputMismatch() {
+    default  int handleUserInputMismatch() {
         int number;
         while (true) {
             try {
@@ -41,6 +41,19 @@ interface UserInput {
         while (true) { 
             input = handleUserInputMismatch();
             if(input > size || input <= 0 ) {
+                System.err.println(Colors.ANSI_RED + "Invalid Input!" + Colors.ANSI_RESET);
+                continue;
+            }
+            break;
+        }
+        return input;
+    }
+
+    default int handleUserListItemSelectionWithZero(int size) {
+        int input;
+        while (true) { 
+            input = handleUserInputMismatch();
+            if(input > size || input < 0 ) {
                 System.err.println(Colors.ANSI_RED + "Invalid Input!" + Colors.ANSI_RESET);
                 continue;
             }

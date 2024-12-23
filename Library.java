@@ -4,6 +4,7 @@ import java.util.Scanner;
 public class Library implements BookService, UserInput {
     private final ArrayList<Book> library =  new ArrayList<>();
     Scanner scan = new Scanner(System.in);
+    ReadersService readers = new Readers();
     
     // getters & setters
     public ArrayList<Book> getLibrary() {
@@ -191,10 +192,12 @@ public class Library implements BookService, UserInput {
         int input = handleUserListItemSelection(unavailaBooks.size());
 
         Book selectedBook = unavailaBooks.get(input - 1);
+        Person reader = selectedBook.getReader();
 
         selectedBook.setAvailable(true);
+        selectedBook.setReader(null);
 
-        System.out.println(Colors.ANSI_GREEN + "You returned " + selectedBook.getName() + " ! Hope you enjoyed Reading it!!" + Colors.ANSI_RESET);
+        System.out.println(Colors.ANSI_GREEN + reader.getName().toUpperCase() + " returned " + selectedBook.getName() + " ! Hope you enjoyed Reading it!!" + Colors.ANSI_RESET);
         System.out.println();
     }
 
@@ -226,12 +229,40 @@ public class Library implements BookService, UserInput {
         // select a book to borrow
         System.out.println("select a book from the above list");
         int input = handleUserListItemSelection(availaBooks.size());
+        System.out.println();
 
         Book selectedBook = availaBooks.get(input - 1);
 
+        // select reader
+
+        // no reader
+        if(readers.getReaders().isEmpty()) {
+            System.out.println("No Readers! Try to add one first");
+            System.out.println();
+            readers.add();
+        }
+
+        // list readers & add new one
+        int number;
+        while (true) {
+            readers.getReaders().forEach(reader -> System.out.println(reader));
+            System.out.println("select a reader from the above list (0: create a new one)");
+            System.out.println();
+            number = handleUserListItemSelectionWithZero(readers.getReaders().size());
+            if(number == 0) {
+                readers.add();
+                continue;
+            }
+            break;
+        }
+
+        // get selected reader;
+        Person selecterReader = readers.getReaders().get(number - 1);
+
+        selectedBook.setReader(selecterReader);
         selectedBook.setAvailable(false);
 
-        System.out.println(Colors.ANSI_GREEN + "You took " + selectedBook.getName() + " ! Happy Reading!!" + Colors.ANSI_RESET);
+        System.out.println(Colors.ANSI_GREEN + selecterReader.getName().toUpperCase() + " took " + selectedBook.getName() + " ! Happy Reading!!" + Colors.ANSI_RESET);
         System.out.println();
 
     }

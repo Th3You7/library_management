@@ -4,6 +4,7 @@ public class Book {
     private String name;
     private String author;
     private Boolean available;
+    private Person reader;
     private long isbn;
 
     public Book(String name, String author) {
@@ -24,6 +25,10 @@ public class Book {
         return available;
     }
 
+    public Person getReader() {
+        return reader;
+    }
+    
     public void setName(String name) {
         this.name = name;
     }
@@ -36,9 +41,13 @@ public class Book {
         this.available = availbale;
     }
 
+    public void setReader(Person reader) {
+        this.reader = reader;
+    }
+
     @Override
     public String toString() {
-        String isAvailable =  getAvailable() ? Colors.ANSI_GREEN + "* Available" + Colors.ANSI_RESET : Colors.ANSI_RED + "* Not Available" + Colors.ANSI_RESET;
+        String isAvailable =  getAvailable() ? Colors.ANSI_GREEN + "* Available" + Colors.ANSI_RESET : Colors.ANSI_RED + "* Not Available" + Colors.ANSI_RESET +  " | * Reader: " + getReader().getName();
         return getName().toUpperCase() + " by " + getAuthor() + " | " + isAvailable;
     }
 
